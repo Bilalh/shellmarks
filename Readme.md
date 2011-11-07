@@ -11,26 +11,29 @@ It also allows placing commands after the the letter e.g `g webfolder ls` would 
 
 ## Shell Commands
 
-    s <bookmark_name> - Saves the current directory as "bookmark_name"
-    g <bookmark_name> - Goes (cd) to the directory associated with "bookmark_name"
-    o <bookmark_name> - Open the directory associated with "bookmark_name" in Finder
-    p <bookmark_name> - Prints the directory associated with "bookmark_name"
-    d <bookmark_name> - Deletes the bookmark
-    l                 - Lists all available bookmarks
+	s <bookmark_name>  - Saves the current directory as "bookmark_name"
+	g <bookmark_name>  - Goes (cd) to the directory associated with "bookmark_name"
+	o <bookmark_name>  - Open the directory associated with "bookmark_name" in Finder
+	d <bookmark_name>  - Deletes the bookmark
+	l | g              - Lists all available bookmarks
+	l <bookmark_name>  - Lists the specified bookmark associated with "bookmark_name"
+	_p <bookmark_name> - Prints the directory associated with "bookmark_name"
     
 ## Example Usage
 
-    $ cd /var/www/
-    $ s webfolder
-    $ cd /usr/local/lib/
-    $ s locallib
-    $ l
-        webfolder    /var/www/
-        locallib     /usr/local/lib/
-    $ g web<tab>
-    $ g webfolder
-	$ o webfolder 
-
+	$ cd /var/www/
+	$ s webfolder
+	$ cd /usr/local/lib/
+	$ s locallib
+	$ l
+		webfolder	 /var/www/
+		locallib	 /usr/local/lib/
+	$ g web<tab>
+	$ g webfolder	  # cd to /var/www/
+	$ o webfolder	  # Open in Finder if on mac
+	$ l locallib
+		locallib	 /usr/local/lib/
+		
 ## Where Bashmarks are stored
     
 All of your directory bookmarks are saved in a file called ".sdirs" in your HOME directory.
