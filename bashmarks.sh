@@ -6,7 +6,9 @@
 # g <bookmark_name>  - Goes (cd) to the directory associated with "bookmark_name"
 # o <bookmark_name>  - Open the directory associated with "bookmark_name" in Finder
 # d <bookmark_name>  - Deletes the bookmark
-# l | g              - Lists all available bookmarks
+# s                  - Saves the default directory
+# g                  - Goes to the default directory
+# l                  - Lists all available bookmarks
 # l <bookmark_name>  - Lists the specified bookmark associated with "bookmark_name"
 # _p <bookmark_name> - Prints the directory associated with "bookmark_name"
 
@@ -22,9 +24,15 @@ function s {
     check_help $1
     _bookmark_name_valid "$@"
     if [ -z "$exit_message" ]; then
-        _purge_line "$SDIRS" "export DIR_$1="
-        CURDIR=$(echo $PWD| sed "s#^$HOME#\$HOME#g")
-        echo "export DIR_$1=\"$CURDIR\"" >> $SDIRS
+        if [ -z "$@" ]; then
+            _purge_line "$SDIRS" "export DIR_DEFAULT="
+            CURDIR=$(echo $PWD| sed "s#^$HOME#\$HOME#g")
+            echo "export DIR_DEFAULT=\"$CURDIR\"" >> $SDIRS
+        else
+            _purge_line "$SDIRS" "export DIR_$1="
+            CURDIR=$(echo $PWD| sed "s#^$HOME#\$HOME#g")
+            echo "export DIR_$1=\"$CURDIR\"" >> $SDIRS
+        fi
     fi
 }
 
@@ -44,13 +52,14 @@ function o {
 
 # jump to bookmark
 function g {
-    if [ -z $1 ]; then
-		_bookmarks
+    check_help $1
+    source $SDIRS
+    if [ -z "$@" ]; then
+        cd "$(eval $(echo echo $(echo \$DIR_DEFAULT)))"
+        pwd; $*
     else
-		check_help $1
-        source $SDIRS
         cd "$(eval $(echo echo $(echo \$DIR_$1)))"
-		pwd; shift; $*
+        pwd; shift; $*
     fi
 }
 
@@ -79,7 +88,9 @@ function check_help {
         echo 'o <bookmark_name>  - Open the directory associated with "bookmark_name" in Finder'
         echo 'g <bookmark_name>  - Goes (cd) to the directory associated with "bookmark_name"'
         echo 'd <bookmark_name>  - Deletes the bookmark'
-        echo 'l | g              - Lists all available bookmarks'
+        echo 's                  - Saves the default directory'
+        echo 'g                  - Goes to the default directory'
+        echo 'l                  - Lists all available bookmarks'
         echo 'l <bookmark_name>  - Lists the specified bookmark associated with "bookmark_name"'
         echo '_p <bookmark_name> - Prints the directory associated with "bookmark_name"'
         kill -SIGINT $$
@@ -114,10 +125,7 @@ function _l {
 # validate bookmark name
 function _bookmark_name_valid {
     exit_message=""
-    if [ -z $1 ]; then
-        exit_message="bookmark name required"
-        echo $exit_message
-    elif [ "$1" != "$(echo $1 | sed 's/[^A-Za-z0-9_]//g')" ]; then
+    if [ "$1" != "$(echo $1 | sed 's/[^A-Za-z0-9_]//g')" ]; then
         exit_message="bookmark name is not valid"
         echo $exit_message
     fi
