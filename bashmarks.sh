@@ -2,14 +2,15 @@
 # fork of bashmarks that has mac specific features	  
 
 # USAGE: 
-# s <bookmark_name>	 - Saves the current directory as "bookmark_name"
-# g <bookmark_name>	 - Goes (cd) to the directory associated with "bookmark_name"
-# o <bookmark_name>	 - Open the directory associated with "bookmark_name" in Finder
-# d <bookmark_name>	 - Deletes the bookmark
-# s					 - Saves the default directory
-# g					 - Goes to the default directory
-# l					 - Lists all available bookmarks
-# l <bookmark_name>	 - Lists the specified bookmark associated with "bookmark_name"
+# s <bookmark_name>  - Saves the current directory as "bookmark_name"
+# g <bookmark_name>  - Goes (cd) to the directory associated with "bookmark_name"
+# o <bookmark_name>  - Open the directory associated with "bookmark_name" in Finder
+# d <bookmark_name>  - Deletes the bookmark
+# l <bookmark_name>  - Lists the specified bookmark associated with "bookmark_name"
+# l                  - Lists all available bookmarks
+# s                  - Saves the default directory
+# g                  - Goes to the default directory
+# g -                - Goes to the previous directory
 # _p <bookmark_name> - Prints the directory associated with "bookmark_name"
 
 # Tab completion for g o p and d 
@@ -57,6 +58,9 @@ function g {
 	if [ -z "$@" ]; then
 		cd "$(eval $(echo echo $(echo \$DIR_DEFAULT)))"
 		pwd; $*
+	elif [ "$1" == "-" ]; then 
+		cd -;
+		shift; $*
 	else 
 		cd "$(eval $(echo echo $(echo \$DIR_$1)))"
 		pwd; shift; $*
