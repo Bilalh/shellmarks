@@ -40,7 +40,8 @@ function s {
 # open the specifed bookmark
 function o {
 	if [ -z $1 ]; then
-		bashmarks_list
+		open .
+		osascript -e 'tell application "Finder"' -e 'activate' -e 'end tell'
 	else
 		check_help $1
 		source $SDIRS
