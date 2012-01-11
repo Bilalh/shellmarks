@@ -62,6 +62,9 @@ function g {
 	elif [ "$1" == "-" ]; then 
 		cd -;
 		shift; $*
+	elif [ "$1" == ".." ]; then 
+		cd ..;
+		shift; $*
 	else 
 		cd "$(eval $(echo echo $(echo \$DIR_$1)))"
 		pwd; shift; $*
