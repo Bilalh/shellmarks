@@ -56,15 +56,12 @@ function o {
 function g {
 	check_help $1
 	source $SDIRS
-	if [ -z "$@" ]; then
+	if [ -z $1 ]; then
 		cd "$(eval $(echo echo $(echo \$DIR_DEFAULT)))"
 		pwd; $*
-	elif [ "$1" == "-" ]; then 
-		cd -;
-		shift; $*
-	elif [ "$1" == ".." ]; then 
-		cd ..;
-		shift; $*
+	elif [[ "$1" == "-" || "$1" == ".."  || "$1" == '.' ]]; then 
+		cd $1;
+		pwd; shift; $*
 	else 
 		cd "$(eval $(echo echo $(echo \$DIR_$1)))"
 		pwd; shift; $*
