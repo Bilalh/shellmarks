@@ -4,7 +4,6 @@
 # USAGE: 
 # s <bookmark_name>  - Saves the current directory as "bookmark_name"
 # g <bookmark_name>  - Goes (cd) to the directory associated with "bookmark_name"
-# o <bookmark_name>  - Open the directory associated with "bookmark_name" in Finder
 # d <bookmark_name>  - Deletes the bookmark
 # l <bookmark_name>  - Lists the specified bookmark associated with "bookmark_name"
 # l                  - Lists all available bookmarks
@@ -12,6 +11,10 @@
 # g                  - Goes to the default directory
 # g -                - Goes to the previous directory
 # _p <bookmark_name> - Prints the directory associated with "bookmark_name"
+
+# Mac only 
+# o <bookmark_name>  - Open the directory associated with "bookmark_name" in Finder
+# t <bookmark_name>  - Open the directory associated with "bookmark_name" in a new tab
 
 # Tab completion for g o p and d 
 # setup file to store bookmarks
@@ -37,21 +40,6 @@ function s {
 	fi
 }
 
-# open the specifed bookmark
-function o {
-	if [ -z $1 ]; then
-		open .
-		osascript -e 'tell application "Finder"' -e 'activate' -e 'end tell'
-	else
-		check_help $1
-		source $SDIRS
-		open "$(eval $(echo echo $(echo \$DIR_$1)))"
-		cd "$(eval $(echo echo $(echo \$DIR_$1)))"
-		pwd; shift; $*
-		osascript -e 'tell application "Finder"' -e 'activate' -e 'end tell'
-	fi
-}
-
 # jump to bookmark
 function g {
 	check_help $1
@@ -59,7 +47,10 @@ function g {
 	if [ -z $1 ]; then
 		cd "$(eval $(echo echo $(echo \$DIR_DEFAULT)))"
 		pwd; $*
-	elif [[ "$1" == "-" || "$1" == ".."  || "$1" == '.' ]]; then 
+	elif [ "$1" == "-" ]; then 
+		cd $1;
+		shift; $*		
+	elif [[ "$1" == ".."  || "$1" == '~' || "$1" == '/' ]]; then 
 		cd $1;
 		pwd; shift; $*
 	else 
@@ -85,18 +76,65 @@ function d {
 	fi
 }
 
+if [ "`uname`" == "Darwin" ]; then
+
+# open the specifed bookmark
+function o {
+	if [ -z $1 ]; then
+		open .
+		osascript -e 'tell application "Finder"' -e 'activate' -e 'end tell'
+	else
+		check_help $1
+		source $SDIRS
+		open "$(eval $(echo echo $(echo \$DIR_$1)))"
+		cd "$(eval $(echo echo $(echo \$DIR_$1)))"
+		pwd; shift; $*
+		osascript -e 'tell application "Finder"' -e 'activate' -e 'end tell'
+	fi
+}
+
+#jump to bookmark in a new tab in the current window
+function t {
+	check_help $1
+	source $SDIRS
+	if [ -z $1 ]; then
+		dst="$(eval $(echo echo $(echo \$DIR_DEFAULT)))"
+	elif [[ "$1" == "-" || "$1" == ".." || "$1" == '~' ||  "$1" == '/' ]]; then 
+		dst="$1";
+	else 
+		dst="$(eval $(echo echo $(echo \$DIR_$1)))"
+	fi
+	
+	shift
+	osascript > /dev/null 2>&1 <<APPLESCRIPT
+		tell application "Terminal"
+			tell application "System Events"
+				tell process "Terminal" to keystroke "t" using command down
+				delay 0.1
+				keystroke "cd $dst; $*\n"
+			end tell
+		end tell
+APPLESCRIPT
+}
+
+
+fi
+
 # print out help for the forgetful
 function check_help {
 	if [ "$1" = "-h" ] || [ "$1" = "-help" ] || [ "$1" = "--help" ] ; then
 		echo ''
 		echo 's <bookmark_name>  - Saves the current directory as "bookmark_name"'
-		echo 'o <bookmark_name>  - Open the directory associated with "bookmark_name" in Finder'
 		echo 'g <bookmark_name>  - Goes (cd) to the directory associated with "bookmark_name"'
+		if [ "`uname`" == "Darwin" ]; then
+		echo 'o <bookmark_name>  - Open the directory associated with "name" in Finder'
+		echo 't <bookmark_name>  - Open the directory associated with "name" in a new tab'
+		fi
 		echo 'd <bookmark_name>  - Deletes the bookmark'
 		echo 's                  - Saves the default directory'
 		echo 'g                  - Goes to the default directory'
 		echo 'l                  - Lists all available bookmarks'
-		echo 'l <bookmark_name>  - Lists the specified bookmark associated with "bookmark_name"'
+		echo 'l <bookmark_name>  - Lists the bookmark associated with "bookmark_name"'
 		echo '_p <bookmark_name> - Prints the directory associated with "bookmark_name"'
 		kill -SIGINT $$
 	fi

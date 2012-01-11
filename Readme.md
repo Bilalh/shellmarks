@@ -7,6 +7,7 @@
 * `g -` Goes to the previous directory.
 * Prints the directory when using `g`
 * `o command` to open the bookmark in Finder (Mac OS X Only).
+* `t command` to open the bookmark in a new tab (Mac OS X Only).
 
 ## Install ##
 
@@ -20,7 +21,6 @@
 
 	s <bookmark_name>  - Saves the current directory as "bookmark_name"
 	g <bookmark_name>  - Goes (cd) to the directory associated with "bookmark_name"
-	o <bookmark_name>  - Open the directory associated with "bookmark_name" in Finder
 	d <bookmark_name>  - Deletes the bookmark
 	l <bookmark_name>  - Lists the specified bookmark associated with "bookmark_name"
 	l                  - Lists all available bookmarks
@@ -29,6 +29,10 @@
 	g -                - Goes to the previous directory
 	_p <bookmark_name> - Prints the directory associated with "bookmark_name"
     
+	# Mac OS X Only 
+	o <bookmark_name>  - Open the directory associated with "bookmark_name" in Finder
+	t <bookmark_name>  - Open the directory associated with "bookmark_name" in a new tab
+
 ## Example Usage ##
 
 	$ cd /var/www/
