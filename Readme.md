@@ -10,7 +10,6 @@ Extra Features
 * default directory when using `g` - default `$HOME`.
 * Allows placing commands after the the letter e.g `g webfolder ls` would go the webfolder bookmark then perform `ls`
 * `g -` Goes to the previous directory.
-* Prints the directory when using `g`
 * `o command` to open the bookmark in Finder (Mac OS X Only).
 * `t command` to open the bookmark in a new tab (Mac OS X Only).
 

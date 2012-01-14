@@ -1,5 +1,6 @@
-
 # fork of bashmarks that has mac specific features	  
+# Bilal Syed Hussain 
+# based of https://github.com/huyng/bashmarks
 
 # USAGE: 
 # s <bookmark_name>  - Saves the current directory as "bookmark_name"
@@ -98,7 +99,7 @@ function t {
 	check_help $1
 	source $SDIRS
 	if [ -z $1 ]; then
-		dst="$(eval $(echo echo $(echo \$DIR_DEFAULT)))"
+		dst="`pwd`"
 	elif [[ "$1" == "-" || "$1" == ".." || "$1" == '~' ||  "$1" == '/' ]]; then 
 		dst="$1";
 	else 
