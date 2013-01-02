@@ -48,7 +48,7 @@ function g {
 	if [ -z $1 ]; then
 		cd "$(eval $(echo echo $(echo \$DIR_DEFAULT)))"
 		pwd; $*
-	elif [ "$1" == "-" ]; then 
+	elif [[ "$1" == "-" ]]; then 
 		cd $1;
 		shift; $*		
 	elif [[ "$1" == ".."  || "$1" == '~' || "$1" == '/' ]]; then 
@@ -77,7 +77,7 @@ function d {
 	fi
 }
 
-if [ "`uname`" == "Darwin" ]; then
+if [[ "`uname`" == "Darwin" ]]; then
 
 # open the specifed bookmark
 function o {
