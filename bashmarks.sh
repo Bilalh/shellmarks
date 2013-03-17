@@ -160,6 +160,11 @@ function _bookmarks {
 	fi
 }
 
+function _bookmarks_no_colour {
+	source $SDIRS
+	env | grep "^DIR_" | cut -c5-	 | grep "^.*=" | sort
+}
+
 # list bookmarks without dirname
 function _l {
 	source $SDIRS

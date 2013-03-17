@@ -1,0 +1,1 @@
+This adds supports for using bashmarks with [Alfred 2](http://www.alfredapp.com/)
