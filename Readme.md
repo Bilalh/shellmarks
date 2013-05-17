@@ -11,7 +11,7 @@ Extra Features
 * Allows placing commands after the the letter e.g `g webfolder ls` would go the webfolder bookmark then perform `ls`
 * `g -` Goes to the previous directory.
 * `o command` to open the bookmark in Finder (Mac OS X Only).
-* `t command` to open the bookmark in a new tab (Mac OS X Only).
+* `y command` to open the bookmark in a new tab (Mac OS X Only).
 
 Install
 -------
@@ -35,7 +35,7 @@ Shell Commands
     
 	# Mac OS X Only 
 	o <bookmark_name>  - Open the directory associated with "bookmark_name" in Finder
-	t <bookmark_name>  - Open the directory associated with "bookmark_name" in a new tab
+	y <bookmark_name>  - Open the directory associated with "bookmark_name" in a new tab
 
 Example Usage
 -------------

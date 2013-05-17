@@ -15,7 +15,7 @@
 
 # Mac only 
 # o <bookmark_name>  - Open the directory associated with "bookmark_name" in Finder
-# t <bookmark_name>  - Open the directory associated with "bookmark_name" in a new tab
+# y <bookmark_name>  - Open the directory associated with "bookmark_name" in a new tab
 
 # Tab completion for g o p and d 
 # setup file to store bookmarks
@@ -23,6 +23,10 @@ if [ ! -n "$SDIRS" ]; then
 	SDIRS=~/.sdirs
 fi
 touch $SDIRS
+
+function __unset_dirs {
+	eval `sed -e 's/export/unset/' -e 's/=.*/;/' ~/.sdirs | xargs`
+}
 
 # save current directory to bookmarks
 function s {
@@ -58,6 +62,7 @@ function g {
 		cd "$(eval $(echo echo $(echo \$DIR_$1)))"
 		pwd; shift; $*
 	fi
+	__unset_dirs
 }
 
 # print bookmark
@@ -65,6 +70,7 @@ function _p {
 	check_help $1
 	source $SDIRS
 	echo "$(eval $(echo echo $(echo \$DIR_$1)))"
+	__unset_dirs
 }
 
 # delete bookmark
@@ -75,6 +81,7 @@ function d {
 		_purge_line "$SDIRS" "export DIR_$1="
 		unset "DIR_$1"
 	fi
+	__unset_dirs
 }
 
 if [[ "`uname`" == "Darwin" ]]; then
@@ -92,10 +99,11 @@ function o {
 		pwd; shift; $*
 		osascript -e 'tell application "Finder"' -e 'activate' -e 'end tell'
 	fi
+	__unset_dirs
 }
 
 #jump to bookmark in a new tab in the current window
-function t {
+function y {
 	check_help $1
 	source $SDIRS
 	if [ -z $1 ]; then
@@ -116,6 +124,7 @@ function t {
 			end tell
 		end tell
 APPLESCRIPT
+	__unset_dirs
 }
 
 
@@ -129,7 +138,7 @@ function check_help {
 		echo 'g <bookmark_name>  - Goes (cd) to the directory associated with "bookmark_name"'
 		if [ "`uname`" == "Darwin" ]; then
 		echo 'o <bookmark_name>  - Open the directory associated with "name" in Finder'
-		echo 't <bookmark_name>  - Open the directory associated with "name" in a new tab'
+		echo 'y <bookmark_name>  - Open the directory associated with "name" in a new tab'
 		fi
 		echo 'd <bookmark_name>  - Deletes the bookmark'
 		echo 's                  - Saves the default directory'
@@ -158,17 +167,20 @@ function _bookmarks {
 		# uncomment this line if color output is not working with the line above
 		# env | grep "^DIR_" | cut -c5-	 | grep "^.*=" | sort  
 	fi
+	__unset_dirs
 }
 
 function _bookmarks_no_colour {
 	source $SDIRS
 	env | grep "^DIR_" | cut -c5-	 | grep "^.*=" | sort
+	__unset_dirs
 }
 
 # list bookmarks without dirname
 function _l {
 	source $SDIRS
 	env | grep "^DIR_" | cut -c5- | sort | grep "^.*=" | cut -f1 -d "=" 
+	__unset_dirs
 }
 
 # validate bookmark name
