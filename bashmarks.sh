@@ -121,7 +121,7 @@ function y {
 			tell application "System Events"
 				tell process "Terminal" to keystroke "t" using command down
 				delay 0.1
-				keystroke "cd $dst; $*\n"
+				keystroke "cd $dst\n"
 			end tell
 		end tell
 APPLESCRIPT
