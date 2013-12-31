@@ -147,6 +147,9 @@ function check_help {
 		echo 'l                  - Lists all available bookmarks'
 		echo 'l <bookmark_name>  - Lists the bookmark associated with "bookmark_name"'
 		echo '_p <bookmark_name> - Prints the directory associated with "bookmark_name"'
+		if [ $BASHMARKS_k ]; then		
+		echo "k <bookmark_name>  - Tries use 'g', if the bookmark does not exist try autojump's j"
+		fi
 		kill -SIGINT $$
 	fi
 }
@@ -237,3 +240,38 @@ else
 	complete -F _comp _p
 	complete -F _comp d
 fi
+
+if [ $BASHMARKS_k ]; then
+	# Use a bookmark if it is available otherwise try to use autojump j's command 
+	function k {
+		check_help $1
+		
+		if [ -n "$1"  ]; then
+			if (grep DIR_$1 .sdirs &>/dev/null); then
+				g "$@"
+			else
+				j "$@"	
+			fi
+		else 
+			g "$@"
+		fi
+	}
+
+	if [ $ZSH_VERSION ]; then
+		function _compzsh_k {
+			cur=${words[2, -1]}
+			autojump --complete ${=cur[*]} | while read i
+			do
+				compadd -U "$i"
+			done
+
+			for f in `_l`; 
+			do
+				compadd  $f
+			done
+		}
+		compdef _compzsh_k k 
+	fi
+
+fi
+
