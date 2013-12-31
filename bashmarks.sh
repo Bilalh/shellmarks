@@ -136,7 +136,7 @@ function check_help {
 		echo ''
 		echo 's <bookmark_name>  - Saves the current directory as "bookmark_name"'
 		echo 'g <bookmark_name>  - Goes (cd) to the directory associated with "bookmark_name"'
-		if [ "`uname`" == "Darwin" ]; then
+		if [ "`uname`" = "Darwin" ]; then
 		echo 'o <bookmark_name>  - Open the directory associated with "name" in Finder'
 		echo 'y <bookmark_name>  - Open the directory associated with "name" in a new tab'
 		fi
