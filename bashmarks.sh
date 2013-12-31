@@ -35,11 +35,11 @@ function s {
 	if [ -z "$exit_message" ]; then
 		if [ -z "$@" ]; then
 			_purge_line "$SDIRS" "export DIR_DEFAULT="
-			CURDIR=$(echo $PWD| sed "s#^$HOME#\$HOME#g")
+			local CURDIR=$(echo $PWD| sed "s#^$HOME#\$HOME#g")
 			echo "export DIR_DEFAULT=\"$CURDIR\"" >> $SDIRS
 		else
 			_purge_line "$SDIRS" "export DIR_$1="
-			CURDIR=$(echo $PWD| sed "s#^$HOME#\$HOME#g")
+			local CURDIR=$(echo $PWD| sed "s#^$HOME#\$HOME#g")
 			echo "export DIR_$1=\"$CURDIR\"" >> $SDIRS
 		fi
 	fi
