@@ -123,7 +123,7 @@ function y {
 			tell application "iTerm"
 				tell the current terminal
 					activate current session
-					launch session "Default"
+					launch session "${BASHMARKS_ITERM_SESSION:-Default}"
 					tell current session
 						# does not seem to allow multiple commands
 						write text "cd $dst;"

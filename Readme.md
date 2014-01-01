@@ -18,7 +18,7 @@ Install
 -------
 
 1. git clone git://github.com/Bilalh/bashmarks.git
-2. make install
+2. make install  (or just put bashmarks.sh in your $PATH and source `it`  )
 3. **source ~/.local/bin/bashmarks.sh** from within your **~.bash\_profile** or **~/.bashrc** file
 
 Shell Commands
@@ -54,6 +54,12 @@ Example Usage
 	$ l locallib
 		locallib	 /usr/local/lib/
 		
+Options
+-------
+
+Set `BASHMARKS_ITERM_SESSION` to a session name to change the session that is launched when using `y` in iTerm2 on `osx` 
+
+        
 Where Bashmarks are stored
 --------------------------
     
