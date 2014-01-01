@@ -233,12 +233,14 @@ if [ $ZSH_VERSION ]; then
 	compctl -K _compzsh g
 	compctl -K _compzsh _p
 	compctl -K _compzsh d
+	compctl -K _compzsh y
 else
 	shopt -s progcomp
 	complete -F _comp o
 	complete -F _comp g
 	complete -F _comp _p
 	complete -F _comp d
+	complete -F _comp y
 fi
 
 if [ $BASHMARKS_k ]; then
