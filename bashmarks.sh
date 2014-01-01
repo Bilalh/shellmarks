@@ -116,11 +116,14 @@ function y {
 		shift
 	fi
 
-
-	current_app="$(osascript -e 'tell application "System Events" to get item 1 of (get name of processes whose frontmost is true)')"
-	if [ $current_app = "iTerm" ]; then
+	if [ $BASHMARK_TERM_APP ]; then
+		current_app="$BASHMARK_TERM_APP"
+	else
+		current_app="$(osascript -e 'tell application "System Events" to get item 1 of (get name of processes whose frontmost is true)')"	
+	fi
+	if [ ${current_app:0:5} = "iTerm" ]; then
 		osascript > /dev/null 2>&1 <<APPLESCRIPT
-			tell application "iTerm"
+			tell application "${current_app}"
 				tell the current terminal
 					activate current session
 					launch session "${BASHMARKS_ITERM_SESSION:-Default}"
