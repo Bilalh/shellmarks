@@ -115,7 +115,23 @@ function y {
 		dst="$(eval $(echo echo $(echo \$DIR_$1)))"
 		shift
 	fi
-	
+
+
+	current_app="$(osascript -e 'tell application "System Events" to get item 1 of (get name of processes whose frontmost is true)')"
+	if [ $current_app = "iTerm" ]; then
+		osascript > /dev/null 2>&1 <<APPLESCRIPT
+			tell application "iTerm"
+				tell the current terminal
+					activate current session
+					launch session "Default"
+					tell current session
+						# does not seem to allow multiple commands
+						write text "cd $dst;"
+					end tell
+				end tell
+			end tell
+APPLESCRIPT
+	else
 	osascript > /dev/null 2>&1 <<APPLESCRIPT
 		tell application "System Events"
 				tell process "Terminal" to keystroke "t" using command down
@@ -125,6 +141,8 @@ function y {
 				do script with command "cd $dst; $*" in window 1
 		end tell
 APPLESCRIPT
+
+	fi
 	__unset_dirs
 }
 

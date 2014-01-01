@@ -1,7 +1,7 @@
 Bashmarks {#readmeTitle}
 =====
 
-Bashmarks is a shell script that allows you to save and jump to commonly used directories. Now supports tab completion.
+Bashmarks is a shell script that allows you to save and jump to commonly used directories with tab completion. Also works with zsh
 {#description}
 
 Extra Features
@@ -12,6 +12,7 @@ Extra Features
 * `g -` Goes to the previous directory.
 * `o command` to open the bookmark in Finder (Mac OS X Only).
 * `y command` to open the bookmark in a new tab (Mac OS X Only).
+* the `y command` works with Terminal and ITerm2
 
 Install
 -------
