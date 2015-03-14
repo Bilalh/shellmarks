@@ -17,7 +17,8 @@ Extra Features
 Install
 -------
 
-1. git clone git://github.com/Bilalh/bashmarks.git
+1. git clone git://github.com/Bilalh/shellmarks.git
+2. cd shellmarks
 2. make install  (or just put bashmarks.sh in your $PATH and source `it`  )
 3. **source ~/.local/bin/bashmarks.sh** from within your **~.bash\_profile** or **~/.bashrc** file
 
@@ -63,7 +64,7 @@ Set `BASHMARKS_ITERM_SESSION` to a session name to change the session that is la
 Where Bashmarks are stored
 --------------------------
     
-All of your directory bookmarks are saved in a file called `.sdirs` in your `$HOME` directory.
+All of your directory bookmarks are saved in a file called `.sdirs` in your `$HOME` directory by default.
 
 Authors
 -------
