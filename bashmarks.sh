@@ -25,7 +25,7 @@ fi
 touch $SDIRS
 
 function __unset_dirs {
-	eval `sed -e 's/export/unset/' -e 's/=.*/;/' ~/.sdirs | xargs`
+	eval `sed -e 's/export/unset/' -e 's/=.*/;/' $SDIRS | xargs`
 }
 
 # save current directory to bookmarks
