@@ -28,6 +28,10 @@ function __unset_dirs {
 	eval `sed -e 's/export/unset/' -e 's/=.*/;/' ~/.sdirs | xargs`
 }
 
+function __print_pwd_on_action {
+	 [ -z "$BASHMARKS_NO_PWD" ] && pwd
+}
+
 # save current directory to bookmarks
 function s {
 	check_help $1
@@ -51,16 +55,16 @@ function g {
 	source $SDIRS
 	if [ -z $1 ]; then
 		cd "$(eval $(echo echo $(echo \$DIR_DEFAULT)))"
-		pwd; $*
+		__print_pwd_on_action; $*
 	elif [[ "$1" == "-" ]]; then 
 		cd $1;
 		shift; $*		
 	elif [[ "$1" == ".."  || "$1" == '~' || "$1" == '/' ]]; then 
 		cd $1;
-		pwd; shift; $*
+		__print_pwd_on_action; shift; $*
 	else 
 		cd "$(eval $(echo echo $(echo \$DIR_$1)))"
-		pwd; shift; $*
+		__print_pwd_on_action; shift; $*
 	fi
 	__unset_dirs
 }
@@ -96,7 +100,7 @@ function o {
 		source $SDIRS
 		open "$(eval $(echo echo $(echo \$DIR_$1)))"
 		cd "$(eval $(echo echo $(echo \$DIR_$1)))"
-		pwd; shift; $*
+		__print_pwd_on_action; shift; $*
 		osascript -e 'tell application "Finder"' -e 'activate' -e 'end tell'
 	fi
 	__unset_dirs
