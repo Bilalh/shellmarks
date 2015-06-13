@@ -25,7 +25,7 @@ fi
 touch $SDIRS
 
 function __unset_dirs {
-	eval `sed -e 's/export/unset/' -e 's/=.*/;/' ~/.sdirs | xargs`
+	eval `sed -e 's/export/unset/' -e 's/=.*/;/' $SDIRS | xargs`
 }
 
 function __print_pwd_on_action {
