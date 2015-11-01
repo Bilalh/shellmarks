@@ -1,6 +1,6 @@
-# fork of bashmarks with extra features
-# Bilal Syed Hussain
+# Shellmarks (https://github.com/Bilalh/shellmarks)
 # based of https://github.com/huyng/bashmarks
+
 
 # USAGE:
 # s <bookmark_name>  - Saves the current directory as "bookmark_name"
@@ -32,7 +32,7 @@ function __unset_dirs {
 }
 
 function __print_pwd_on_action {
-	 [ -z "$BASHMARKS_NO_PWD" ] && pwd
+	 [ -n "$SHELLMARKS_PWD" ] &&  pwd
 }
 
 # save current directory to bookmarks
@@ -154,7 +154,7 @@ function y {
 			tell application "${current_app}"
 				tell the current terminal
 					activate current session
-					launch session "${BASHMARKS_ITERM_SESSION:-Default}"
+					launch session "${SHELLMARKS_ITERM_SESSION:-Default}"
 					tell current session
 						# does not seem to allow multiple commands
 						write text "cd $dst;"
@@ -199,7 +199,7 @@ function check_help {
 		echo 'l <prefix>         - Lists the bookmark starting with "prefix"'
 		echo '_p <bookmark_name> - Prints the directory associated with "bookmark_name"'
 		echo 'pd <bookmark_name> - Same as "g" but uses pushd '
-		if [ $BASHMARKS_k ]; then
+		if [ $SHELLMARKS_k ]; then
 			echo ''
 			echo "k <bookmark_name>  - Tries use 'g', if the bookmark does not exist try autojump's j"
 		fi
@@ -280,7 +280,7 @@ function _purge_line {
 	fi
 }
 
-# bind completion command for o g,p,d to _comp
+# bind completion command for o g,p,d,pd to _comp
 if [ $ZSH_VERSION ]; then
 	compctl -K _compzsh o
 	compctl -K _compzsh g
@@ -298,7 +298,7 @@ else
 	complete -F _comp pd
 fi
 
-if [ $BASHMARKS_k ]; then
+if [ $SHELLMARKS_k ]; then
 	# Use a bookmark if it is available otherwise try to use autojump j's command
 	function k {
 		check_help $1

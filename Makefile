@@ -1,21 +1,21 @@
 INSTALL_DIR=~/.local/bin
 
 all:
-	@echo "Please run 'make install'"
+	@echo "run 'make install'"
+
 
 install:
 	@echo ""
 	mkdir -p $(INSTALL_DIR)
-	cp bashmarks.sh $(INSTALL_DIR)
+	cp shellmarks.sh $(INSTALL_DIR)
 	@echo ""
-	@echo "Please add 'source $(INSTALL_DIR)/bashmarks.sh' to your .bashrc file"
+	@echo "add 'source $(INSTALL_DIR)/shellmarks.sh' to your .bashrc/.zshrc"
 	@echo ''
 	@echo 'USAGE:'
 	@echo '------'
 	@echo 's <bookmark_name> - Saves the current directory as "bookmark_name"'
 	@echo 'g <bookmark_name> - Goes (cd) to the directory associated with "bookmark_name"'
 	@echo 'd <bookmark_name> - Deletes the bookmark'
-	@echo 's                 - Saves the default directory'
-	@echo 'g                 - Goes to the default directory'
 	@echo 'l                 - Lists all available bookmarks'
-	@echo 'l <bookmark_name> - Lists the specified bookmark associated with "bookmark_name"'
+	@echo 'g <tab>           - Tab completion is available for all commands'
+	@echo 'g --help          - Complete usage'
