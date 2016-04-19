@@ -1,5 +1,6 @@
+#!/bin/bash
+# This script is meant to be sourced
 # Shellmarks (https://github.com/Bilalh/shellmarks)
-# based of https://github.com/huyng/bashmarks
 
 
 # USAGE:
@@ -20,6 +21,8 @@
 # y <bookmark_name>  - Open the directory associated with "bookmark_name" in a new tab
 
 # There is tab completion for all commands
+# based of https://github.com/huyng/bashmarks
+
 
 # setup file to store bookmarks
 if [ ! -n "$SDIRS" ]; then
@@ -37,16 +40,15 @@ function __print_pwd_on_action {
 
 # save current directory to bookmarks
 function s {
-	check_help $1
+	check_help "$1"
 	_bookmark_name_valid "$@"
 	if [ -z "$exit_message" ]; then
+		local CURDIR="${PWD/$HOME/\$HOME}"
 		if [ -z "$@" ]; then
 			_purge_line "$SDIRS" "export DIR_DEFAULT="
-			local CURDIR=$(echo $PWD| sed "s#^$HOME#\$HOME#g")
-			echo "export DIR_DEFAULT=\"$CURDIR\"" >> $SDIRS
+		echo "export DIR_DEFAULT=\"$CURDIR\"" >> $SDIRS
 		else
 			_purge_line "$SDIRS" "export DIR_$1="
-			local CURDIR=$(echo $PWD| sed "s#^$HOME#\$HOME#g")
 			echo "export DIR_$1=\"$CURDIR\"" >> $SDIRS
 		fi
 	fi
